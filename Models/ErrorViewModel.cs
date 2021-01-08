@@ -1,5 +1,3 @@
-using System;
-
 namespace Manchu.Models
 {
     public class ErrorViewModel
