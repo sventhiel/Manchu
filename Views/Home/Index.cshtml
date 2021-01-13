@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Guid
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,3 +7,62 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div>
+    <img src="~/media/images/manchu.png" style="max-height:300px;" />
+</div>
+
+@Html.DisplayFor(m => m)
+
+<h2>Sound Information</h2>
+<div id="length">Duration:</div>
+<div id="source">Source:</div>
+<div id="status" style="color:red;">Status: Loading</div>
+<hr>
+<h2>Control Buttons</h2>
+<button id="play">Play</button>
+<button id="pause">Pause</button>
+<button id="restart">Restart</button>
+<hr>
+<h2>Playing Information</h2>
+<div id="currentTime">0</div>
+
+<p id="demo"></p>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var audioElement = document.createElement('audio');
+            audioElement.setAttribute('src', 'http://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
+
+            audioElement.addEventListener('ended', function () {
+                this.play();
+            }, false);
+
+            audioElement.addEventListener("canplay", function () {
+                $("#length").text("Duration:" + audioElement.duration + " seconds");
+                $("#source").text("Source:" + audioElement.src);
+                $("#status").text("Status: Ready to play").css("color", "green");
+                this.play();
+            });
+
+            audioElement.addEventListener("timeupdate", function () {
+                $("#currentTime").text("Current second:" + audioElement.currentTime);
+            });
+
+            $('#play').click(function () {
+                audioElement.play();
+                $("#status").text("Status: Playing");
+            });
+
+            $('#pause').click(function () {
+                audioElement.pause();
+                $("#status").text("Status: Paused");
+            });
+
+            $('#restart').click(function () {
+                audioElement.currentTime = 0;
+            });
+        });
+    </script>
+}
