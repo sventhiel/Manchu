@@ -48,7 +48,7 @@ namespace Manchu.Services
             {
                 var col = db.GetCollection<Patient>("patients");
 
-                return col.FindOne(p => Equals(p.Id, id));
+                return col.FindById(id);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Manchu.Services
             {
                 var col = db.GetCollection<Patient>("patients");
 
-                return col.FindOne(p => string.Equals(p.Reference, reference, StringComparison.InvariantCultureIgnoreCase));
+                return col.FindOne(p => p.Reference == reference);
             }
         }
 

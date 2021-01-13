@@ -7,7 +7,7 @@ namespace Manchu.Services
     public interface IVisitService
     {
         Guid Create(Guid patientId);
-        bool Update(Guid id);
+        bool Update(Guid id, bool complete);
         Visit FindById(Guid id);
     }
 
