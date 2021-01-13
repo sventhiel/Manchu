@@ -48,7 +48,7 @@ namespace Manchu.Services
             }
         }
 
-        public bool Update(Guid id)
+        public bool Update(Guid id, bool complete = true)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
@@ -59,7 +59,7 @@ namespace Manchu.Services
                 if(visit != null)
                 {
                     visit.Stop = DateTimeOffset.UtcNow;
-                    visit.WasCompleted = true;
+                    visit.WasCompleted = complete;
                 }
 
                 return col.Update(visit);
