@@ -9,12 +9,10 @@ namespace Manchu.Entities
         public string Name { get; set; }
         public string Reference { get; set; }
         public bool IsActive { get; set; }
-        public List<Visit> Visits { get; set; }
 
         public Patient()
         {
             IsActive = true;
-            Visits = new List<Visit>();
         }
     }
 }
