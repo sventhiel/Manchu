@@ -11,8 +11,6 @@ namespace Manchu.Services
 
         bool Delete(Guid id);
 
-        bool Delete(string reference);
-
         Patient FindById(Guid id);
 
         Patient FindByReference(string reference);
