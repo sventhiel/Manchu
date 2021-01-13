@@ -11,14 +11,19 @@ namespace Manchu.Controllers
 {
     public class PatientController : Controller
     {
-        private ConnectionString connectionString;
+        private readonly ConnectionString _connectionString;
 
         public PatientController(ConnectionString connectionString)
         {
-            this.connectionString = connectionString;
+            _connectionString = connectionString;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(Guid id)
+        {
+            return View(id);
+        }
+
+        public IActionResult List()
         {
             List<Patient> patients = null;
 
@@ -35,15 +40,8 @@ namespace Manchu.Controllers
             return View(model);
         }
 
-        public IActionResult List()
-        {
-            return View();
-        }
-
         public IActionResult Create()
         {
-            var p = new PatientService();
-
             using (var db = new LiteDatabase(connectionString))
             {
                 var col = db.GetCollection<Patient>("patients");

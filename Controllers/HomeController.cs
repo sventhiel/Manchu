@@ -1,6 +1,9 @@
-﻿using Manchu.Models;
+﻿using LiteDB;
+using Manchu.Models;
+using Manchu.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
 
 namespace Manchu.Controllers
@@ -8,15 +11,21 @@ namespace Manchu.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ConnectionString _connectionString;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ConnectionString connectionString)
         {
             _logger = logger;
+            _connectionString = connectionString;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(Guid id)
         {
-            return View();
+            var patientServive = new PatientService(_connectionString);
+
+            //if(patientServive.FindById(id) != null)
+
+            return View(model:id);
         }
 
         public IActionResult Privacy()
