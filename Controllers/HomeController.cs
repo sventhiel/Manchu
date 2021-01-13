@@ -23,7 +23,8 @@ namespace Manchu.Controllers
         {
             var patientServive = new PatientService(_connectionString);
 
-            //if(patientServive.FindById(id) != null)
+            if (patientServive.FindById(id) == null)
+                return RedirectToAction("Error");
 
             return View(model:id);
         }
