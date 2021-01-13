@@ -19,7 +19,7 @@ namespace Manchu.Models
             using (var ms = new MemoryStream())
             {
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{HttpContext.Request.PathBase}/{patient.Id}", QRCodeGenerator.ECCLevel.Q);
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode($"/{patient.Id}", QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
 
                 using (var bitmap = new Bitmap(qrCode.GetGraphic(20)))
