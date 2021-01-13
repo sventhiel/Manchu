@@ -12,14 +12,14 @@ namespace Manchu.Models
         public string Name { get; set; }
         public string QRCode { get; set; }
 
-        public static PatientGridItemModel Convert(Patient patient)
+        public static PatientGridItemModel Convert(Patient patient, string url)
         {
             var base64 = "";
 
             using (var ms = new MemoryStream())
             {
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode($"/{patient.Id}", QRCodeGenerator.ECCLevel.Q);
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{url}?id={patient.Id}", QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
 
                 using (var bitmap = new Bitmap(qrCode.GetGraphic(20)))
