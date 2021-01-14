@@ -8,13 +8,13 @@ namespace Manchu.Entities
         public Guid PatientId { get; set; }
         public DateTimeOffset Start { get; set; }
         public DateTimeOffset Stop { get; set; }
-        public bool WasCompleted { get; set; }
+        public bool Completed { get; set; }
 
         public Visit()
         {
             Start = DateTimeOffset.UtcNow;
             Stop = DateTimeOffset.MinValue;
-            WasCompleted = false;
+            Completed = false;
         }
     }
 }
