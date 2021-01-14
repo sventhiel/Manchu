@@ -30,5 +30,14 @@ namespace Manchu.Controllers
             var visitService = new VisitService(_connectionString);
             return visitService.Update(id);
         }
+
+        public IActionResult Index(Guid patientId)
+        {
+            var visitService = new VisitService(_connectionString);
+
+            var visits = visitService.FindByPatientId(patientId);
+
+            return View();
+        }
     }
 }
