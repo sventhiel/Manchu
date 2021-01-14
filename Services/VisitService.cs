@@ -1,15 +1,17 @@
 ﻿using LiteDB;
 using Manchu.Entities;
 using System;
-using System.Linq;
 
 namespace Manchu.Services
 {
     public interface IVisitService
     {
         Guid Create(Guid patientId);
+
         bool Update(Guid id, bool complete);
+
         Visit FindById(Guid id);
+
         ILiteQueryable<Visit> FindByPatientId(Guid patientId);
     }
 
@@ -70,7 +72,7 @@ namespace Manchu.Services
 
                 var visit = FindById(id);
 
-                if(visit != null)
+                if (visit != null)
                 {
                     visit.Stop = DateTimeOffset.UtcNow;
                     visit.Completed = complete;

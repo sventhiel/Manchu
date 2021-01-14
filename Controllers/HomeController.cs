@@ -26,7 +26,7 @@ namespace Manchu.Controllers
             if (patientServive.FindById(id) == null)
                 return RedirectToAction("Error");
 
-            return View(model:id);
+            return View(model: id);
         }
 
         public IActionResult Privacy()

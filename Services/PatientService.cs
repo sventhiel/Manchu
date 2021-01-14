@@ -1,7 +1,6 @@
 ﻿using LiteDB;
 using Manchu.Entities;
 using System;
-using System.Linq;
 
 namespace Manchu.Services
 {

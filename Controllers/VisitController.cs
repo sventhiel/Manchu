@@ -3,9 +3,7 @@ using Manchu.Models;
 using Manchu.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Manchu.Controllers
 {
@@ -24,7 +22,7 @@ namespace Manchu.Controllers
             var patientService = new PatientService(_connectionString);
             var visitService = new VisitService(_connectionString);
 
-            if(patientService.FindById(patientId) != null)
+            if (patientService.FindById(patientId) != null)
                 return visitService.Create(patientId);
 
             return Guid.Empty;
@@ -35,7 +33,7 @@ namespace Manchu.Controllers
         {
             var visitService = new VisitService(_connectionString);
 
-            if(visitService.FindById(id) != null)
+            if (visitService.FindById(id) != null)
                 return visitService.Update(id, complete);
 
             return false;
