@@ -74,9 +74,11 @@ namespace Manchu.Services
                 {
                     visit.Stop = DateTimeOffset.UtcNow;
                     visit.Completed = complete;
+
+                    return col.Update(visit);
                 }
 
-                return col.Update(visit);
+                return false;
             }
         }
     }
