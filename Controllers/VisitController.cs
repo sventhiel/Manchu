@@ -21,15 +21,24 @@ namespace Manchu.Controllers
         [HttpPost]
         public Guid Create(Guid patientId)
         {
+            var patientService = new PatientService(_connectionString);
             var visitService = new VisitService(_connectionString);
-            return visitService.Create(patientId);
+
+            if(patientService.FindById(patientId) != null)
+                return visitService.Create(patientId);
+
+            return Guid.Empty;
         }
 
         [HttpPost]
-        public bool Update(Guid id)
+        public bool Update(Guid id, bool complete = true)
         {
             var visitService = new VisitService(_connectionString);
-            return visitService.Update(id);
+
+            if(visitService.FindById(id) != null)
+                return visitService.Update(id, complete);
+
+            return false;
         }
 
         public IActionResult Index(Guid patientId)
