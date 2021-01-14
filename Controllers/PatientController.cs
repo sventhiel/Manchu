@@ -20,7 +20,19 @@ namespace Manchu.Controllers
 
         public IActionResult Index(Guid id)
         {
-            return View(id);
+            List<Patient> patients = null;
+
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var col = db.GetCollection<Patient>("patients");
+
+                patients = col.Query().ToList();
+            }
+            var url = $"{Request.Scheme}//{Request.Host.Value}/Home/Index";
+
+            var model = patients.Select(p => PatientGridItemModel.Convert(p, url));
+
+            return View(model);
         }
 
         public IActionResult List()
