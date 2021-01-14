@@ -15,7 +15,7 @@ namespace Manchu.Services
 
         Patient FindByReference(string reference);
 
-        IQueryable<Patient> Query();
+        ILiteQueryable<Patient> Query();
     }
 
     public class PatientService : IPatientService
@@ -62,7 +62,7 @@ namespace Manchu.Services
             }
         }
 
-        public IQueryable<Patient> Query()
+        public ILiteQueryable<Patient> Query()
         {
             throw new NotImplementedException();
         }

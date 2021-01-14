@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using Manchu.Entities;
 using System;
+using System.Linq;
 
 namespace Manchu.Services
 {
@@ -9,6 +10,7 @@ namespace Manchu.Services
         Guid Create(Guid patientId);
         bool Update(Guid id, bool complete);
         Visit FindById(Guid id);
+        ILiteQueryable<Visit> FindByPatientId(Guid patientId);
     }
 
     public class VisitService : IVisitService
@@ -31,7 +33,7 @@ namespace Manchu.Services
                     PatientId = patientId,
                     Start = DateTimeOffset.UtcNow,
                     Stop = DateTimeOffset.MinValue,
-                    WasCompleted = false
+                    Completed = false
                 };
 
                 return col.Insert(visit);
@@ -48,6 +50,18 @@ namespace Manchu.Services
             }
         }
 
+        public ILiteQueryable<Visit> FindByPatientId(Guid patientId)
+        {
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var col = db.GetCollection<Visit>("visits");
+
+                var visits = col.Query().Where(p => p.PatientId == patientId);
+
+                return visits;
+            }
+        }
+
         public bool Update(Guid id, bool complete = true)
         {
             using (var db = new LiteDatabase(_connectionString))
@@ -59,11 +73,10 @@ namespace Manchu.Services
                 if(visit != null)
                 {
                     visit.Stop = DateTimeOffset.UtcNow;
-                    visit.WasCompleted = complete;
+                    visit.Completed = complete;
                 }
 
                 return col.Update(visit);
-
             }
         }
     }
