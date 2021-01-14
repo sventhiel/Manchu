@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using Manchu.Models;
 using Manchu.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -35,9 +36,11 @@ namespace Manchu.Controllers
         {
             var visitService = new VisitService(_connectionString);
 
-            var visits = visitService.FindByPatientId(patientId);
+            var visits = visitService.FindByPatientId(patientId).ToList();
 
-            return View();
+            var model = visits.Select(v => VisitGridItemModel.Convert(v));
+
+            return View(model);
         }
     }
 }

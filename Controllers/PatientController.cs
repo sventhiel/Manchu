@@ -28,7 +28,7 @@ namespace Manchu.Controllers
 
                 patients = col.Query().ToList();
             }
-            var url = $"{Request.Scheme}//{Request.Host.Value}/Home/Index";
+            var url = $"{Request.Scheme}://{Request.Host.Value}/Home/Index";
 
             var model = patients.Select(p => PatientGridItemModel.Convert(p, url));
 

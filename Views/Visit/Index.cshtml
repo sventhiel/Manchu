@@ -1,0 +1,28 @@
+﻿@model IEnumerable<VisitGridItemModel>
+
+<div class="container">
+    <h3 class="p-3 text-center">Blazor WebAssembly - Display a list of items</h3>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Patient Id</th>
+                <th>Start</th>
+                <th>Stop</th>
+                <th>Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var visit in Model)
+            {
+            <tr>
+                <td>@visit.Id</td>
+                <td>@visit.PatientId</td>
+                <td>@visit.Start</td>
+                <td>@visit.Stop</td>
+                <td>@visit.Completed</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

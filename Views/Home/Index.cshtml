@@ -22,7 +22,7 @@
 <h2>Control Buttons</h2>
 <button id="play">Play</button>
 <button id="pause">Pause</button>
-<button id="restart">Restart</button>
+<button id="stop">Stop</button>
 <hr>
 <h2>Playing Information</h2>
 <div id="currentTime">0</div>
@@ -56,9 +56,11 @@
             $('#play').click(function () {
                 audioElement.play();
                 $("#status").text("Status: Playing");
-                $.post('@Url.Action("Create", "Visit")', { patientId: '@Model' }, function (data) {
+                if (visitId === null) {
+                    $.post('@Url.Action("Create", "Visit")', { patientId: '@Model' }, function (data) {
                     visitId = data;
                 });
+                }
             });
 
             $('#pause').click(function () {
@@ -66,9 +68,11 @@
                 $("#status").text("Status: Paused");
             });
 
-            $('#restart').click(function () {
+            $('#stop').click(function () {
                 audioElement.currentTime = 0;
-                this.play();
+                $.post('@Url.Action("Update", "Visit")', { id: visitId, complete: false }, function (data) {
+                    visitId = null;
+                });
             });
         });
     </script>
