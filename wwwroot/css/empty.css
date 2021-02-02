@@ -1,0 +1,49 @@
+﻿html, body {
+    margin: 0;
+    height: 100%
+}
+
+#div_manchu {
+    max-height: 100vh;
+    height: 100%;
+    width: 100%;
+    max-width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+#image_manchu {
+    position: absolute;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+#div_controls {
+    position: relative;
+    min-height: 47vh;
+    min-width: 47vh;
+    height: 47vh;
+    width: 47vh;
+    top: 43vh;
+    left: 1vh;
+    -moz-border-radius: 23vh;
+    -webkit-border-radius: 23vh;
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width: 576px) and (orientation: portrait) {
+    #div_controls {
+        position: relative;
+        min-height: 67vw;
+        min-width: 67vw;
+        height: 67vw;
+        width: 67vw;
+        top: 59vw;
+        left: 1vw;
+        -moz-border-radius: 33vw;
+        -webkit-border-radius: 33vw;
+        display: flex;
+        justify-content: center;
+    }
+}
