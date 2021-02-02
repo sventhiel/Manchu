@@ -9,9 +9,8 @@ namespace Manchu.Models
         public Guid PatientId { get; set; }
         public DateTimeOffset Start { get; set; }
         public int Breaks { get; set; }
-        public TimeSpan Position { get; set; }
+        public int Position { get; set; }
         public DateTimeOffset End { get; set; }
-        public bool Completed { get; set; }
 
         public static VisitGridItemModel Convert(Visit visit)
         {
@@ -23,7 +22,6 @@ namespace Manchu.Models
                 Position = visit.Position,
                 Breaks = visit.Breaks,
                 End = visit.End,
-                Completed = visit.Completed
             };
         }
     }
