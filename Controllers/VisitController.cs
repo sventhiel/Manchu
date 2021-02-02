@@ -29,12 +29,49 @@ namespace Manchu.Controllers
         }
 
         [HttpPost]
-        public bool Update(Guid id, bool complete = true)
+        public bool Stop(Guid id)
         {
             var visitService = new VisitService(_connectionString);
 
-            if (visitService.FindById(id) != null)
-                return visitService.Update(id, complete);
+            var visit = visitService.FindById(id);
+
+            if (visit != null)
+            {
+                visit.End = DateTimeOffset.UtcNow;
+                return visitService.Update(visit);
+            }
+
+            return false;
+        }
+
+        [HttpPost]
+        public bool Pause(Guid id)
+        {
+            var visitService = new VisitService(_connectionString);
+
+            var visit = visitService.FindById(id);
+
+            if (visit != null)
+            {
+                visit.Breaks++;
+                return visitService.Update(visit);
+            }
+
+            return false;
+        }
+
+        [HttpPost]
+        public bool Update(Guid id, int position)
+        {
+            var visitService = new VisitService(_connectionString);
+
+            var visit = visitService.FindById(id);
+
+            if (visit != null)
+            {
+                visit.Position = position;
+                return visitService.Update(visit);
+            }
 
             return false;
         }
