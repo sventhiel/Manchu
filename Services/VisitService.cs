@@ -8,7 +8,7 @@ namespace Manchu.Services
     {
         Guid Create(Guid patientId);
 
-        bool Update(Guid id, bool complete);
+        bool Update(Visit visit);
 
         Visit FindById(Guid id);
 
@@ -34,8 +34,7 @@ namespace Manchu.Services
                 {
                     PatientId = patientId,
                     Start = DateTimeOffset.UtcNow,
-                    Stop = DateTimeOffset.MinValue,
-                    Completed = false
+                    End = DateTimeOffset.MinValue,
                 };
 
                 return col.Insert(visit);
@@ -64,19 +63,14 @@ namespace Manchu.Services
             }
         }
 
-        public bool Update(Guid id, bool complete = true)
+        public bool Update(Visit visit)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
                 var col = db.GetCollection<Visit>("visits");
 
-                var visit = FindById(id);
-
                 if (visit != null)
                 {
-                    visit.Stop = DateTimeOffset.UtcNow;
-                    visit.Completed = complete;
-
                     return col.Update(visit);
                 }
 
