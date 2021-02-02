@@ -8,16 +8,14 @@ namespace Manchu.Entities
         public Guid PatientId { get; set; }
         public DateTimeOffset Start { get; set; }
         public int Breaks { get; set; }
-        public TimeSpan Position { get; set; }
+        public int Position { get; set; }
         public DateTimeOffset End { get; set; }
-        public bool Completed { get; set; }
 
         public Visit()
         {
             Start = DateTimeOffset.UtcNow;
-            Position = TimeSpan.MinValue;
+            Position = 0;
             End = DateTimeOffset.MinValue;
-            Completed = false;
             Breaks = 0;
         }
     }
