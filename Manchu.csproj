@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -10,9 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\media\audios\002.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="wwwroot\media\images\manchu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
