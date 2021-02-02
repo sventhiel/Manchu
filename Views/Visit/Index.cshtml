@@ -11,21 +11,19 @@
                 <th>Position</th>
                 <th>Breaks</th>
                 <th>End</th>
-                <th>Completed</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var visit in Model)
             {
-            <tr>
-                <td>@visit.Id</td>
-                <td>@visit.PatientId</td>
-                <td>@visit.Start</td>
-                <td>@visit.Position</td>
-                <td>@visit.Breaks</td>
-                <td>@visit.End</td>
-                <td>@visit.Completed</td>
-            </tr>
+                <tr>
+                    <td>@visit.Id</td>
+                    <td>@visit.PatientId</td>
+                    <td>@visit.Start</td>
+                    <td>@visit.Position</td>
+                    <td>@visit.Breaks</td>
+                    <td>@visit.End</td>
+                </tr>
             }
         </tbody>
     </table>
