@@ -32,7 +32,7 @@
     justify-content: center;
 }
 
-@media screen and (max-width: 576px) and (orientation: portrait) {
+@media screen and (max-width: 499px) and (orientation: portrait) {
     #div_controls {
         position: relative;
         min-height: 67vw;
