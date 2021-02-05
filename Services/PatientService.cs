@@ -6,7 +6,7 @@ namespace Manchu.Services
 {
     public interface IPatientService
     {
-        Guid Create(string reference);
+        Guid Create(string name, string reference);
 
         bool Delete(Guid id);
 
@@ -26,9 +26,20 @@ namespace Manchu.Services
             _connectionString = connectionString;
         }
 
-        public Guid Create(string reference)
+        public Guid Create(string name = "", string reference = "")
         {
-            throw new NotImplementedException();
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                Patient patient = new Patient
+                {
+                    Name = name,
+                    Reference = reference,
+                };
+
+                var col = db.GetCollection<Patient>("patients");
+
+                return col.Insert(patient);
+            }
         }
 
         public bool Delete(Guid id)

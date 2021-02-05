@@ -6,6 +6,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Number</th>
                 <th>Name</th>
                 <th>QR Code</th>
                 <th>Visits</th>
@@ -16,6 +17,7 @@
             {
                 <tr>
                     <td>@patient.Id</td>
+                    <td>@patient.Number</td>
                     <td>@patient.Name</td>
                     <td><img height="300px" src="data:image/gif;base64,@(patient.QRCode)" /></td>
                     <td>@Html.ActionLink("...", "Index", "Visit", new { patientId = patient.Id }, null)</td>
