@@ -5,7 +5,7 @@ namespace Manchu.Entities
     public class Visit
     {
         public Guid Id { get; set; }
-        public Guid PatientId { get; set; }
+        public Guid Code { get; set; }
         public DateTimeOffset Start { get; set; }
         public int Breaks { get; set; }
         public int Position { get; set; }
