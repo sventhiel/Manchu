@@ -6,13 +6,13 @@ namespace Manchu.Services
 {
     public interface IVisitService
     {
-        Guid Create(Guid patientId);
+        Guid Create(Guid code);
 
         bool Update(Visit visit);
 
         Visit FindById(Guid id);
 
-        ILiteQueryable<Visit> FindByPatientId(Guid patientId);
+        ILiteQueryable<Visit> FindByCode(Guid code);
     }
 
     public class VisitService : IVisitService
@@ -24,7 +24,7 @@ namespace Manchu.Services
             _connectionString = connectionString;
         }
 
-        public Guid Create(Guid patientId)
+        public Guid Create(Guid code)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
@@ -32,7 +32,7 @@ namespace Manchu.Services
 
                 var visit = new Visit()
                 {
-                    PatientId = patientId,
+                    Code = code,
                     Start = DateTimeOffset.UtcNow,
                     End = DateTimeOffset.MinValue,
                 };
@@ -51,13 +51,13 @@ namespace Manchu.Services
             }
         }
 
-        public ILiteQueryable<Visit> FindByPatientId(Guid patientId)
+        public ILiteQueryable<Visit> FindByCode(Guid code)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
                 var col = db.GetCollection<Visit>("visits");
 
-                var visits = col.Query().Where(p => p.PatientId == patientId);
+                var visits = col.Query().Where(p => p.Code == code);
 
                 return visits;
             }

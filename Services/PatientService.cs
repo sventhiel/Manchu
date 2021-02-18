@@ -8,9 +8,11 @@ namespace Manchu.Services
     {
         Guid Create(string name, string reference);
 
-        bool Delete(Guid id);
+        bool Delete(int id);
 
-        Patient FindById(Guid id);
+        Patient FindById(int id);
+
+        Patient FindByCode(Guid code);
 
         Patient FindByReference(string reference);
 
@@ -34,6 +36,7 @@ namespace Manchu.Services
                 {
                     Name = name,
                     Reference = reference,
+                    Code = Guid.NewGuid()
                 };
 
                 var col = db.GetCollection<Patient>("patients");
@@ -42,7 +45,7 @@ namespace Manchu.Services
             }
         }
 
-        public bool Delete(Guid id)
+        public bool Delete(int id)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
@@ -52,7 +55,7 @@ namespace Manchu.Services
             }
         }
 
-        public Patient FindById(Guid id)
+        public Patient FindById(int id)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
@@ -69,6 +72,16 @@ namespace Manchu.Services
                 var col = db.GetCollection<Patient>("patients");
 
                 return col.FindOne(p => p.Reference == reference);
+            }
+        }
+
+        public Patient FindByCode(Guid code)
+        {
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var col = db.GetCollection<Patient>("patients");
+
+                return col.FindOne(p => p.Code == code);
             }
         }
 
