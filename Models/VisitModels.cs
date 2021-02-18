@@ -6,7 +6,7 @@ namespace Manchu.Models
     public class VisitGridItemModel
     {
         public Guid Id { get; set; }
-        public Guid PatientId { get; set; }
+        public Guid Code { get; set; }
         public DateTimeOffset Start { get; set; }
         public int Breaks { get; set; }
         public int Position { get; set; }
@@ -17,7 +17,7 @@ namespace Manchu.Models
             return new VisitGridItemModel()
             {
                 Id = visit.Id,
-                PatientId = visit.PatientId,
+                Code = visit.Code,
                 Start = visit.Start,
                 Position = visit.Position,
                 Breaks = visit.Breaks,
