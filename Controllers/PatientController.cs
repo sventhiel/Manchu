@@ -17,7 +17,7 @@ namespace Manchu.Controllers
             _connectionString = connectionString;
         }
 
-        public IActionResult Index(Guid id)
+        public IActionResult Index()
         {
             List<Patient> patients = null;
 
@@ -36,6 +36,12 @@ namespace Manchu.Controllers
 
         public IActionResult Create()
         {
+            return View(new CreatePatientModel());
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreatePatientModel model)
+        {
             using (var db = new LiteDatabase(_connectionString))
             {
                 var col = db.GetCollection<Patient>("patients");
@@ -43,7 +49,9 @@ namespace Manchu.Controllers
                 // Create your new customer instance
                 var patient = new Patient
                 {
-                    Name = DateTime.Now.ToString()
+                    Name = model.Name,
+                    Reference = model.Reference,
+                    Code = Guid.NewGuid()
                 };
 
                 col.Insert(patient);
