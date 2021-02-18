@@ -8,10 +8,15 @@ using System.IO;
 
 namespace Manchu.Models
 {
+    public class CreatePatientModel
+    {
+        public string Name { get; set; }
+        public string Reference { get; set; }
+    }
     public class PatientGridItemModel
     {
-        public Guid Id { get; set; }
-        public int Number { get; set; }
+        public Guid Code { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string QRCode { get; set; }
 
@@ -35,7 +40,7 @@ namespace Manchu.Models
             return new PatientGridItemModel()
             {
                 Id = patient.Id,
-                Number = patient.Number,
+                Code = patient.Code,
                 Name = patient.Name,
                 QRCode = base64
             };
