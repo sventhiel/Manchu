@@ -5,9 +5,9 @@
 }
 
 <div id="div_manchu">
-    <img class="img_manchu" src="/media/images/manchu.png">
+    <img id="img_manchu" src="/media/images/manchu.png">
     <div id="div_controls">
-        <img class="img_controls" src="/media/images/play.png">
+        <img id="img_controls" src="/media/images/play.png">
     </div>
 </div>
 
@@ -66,12 +66,12 @@
                 }
 
                 audioElement.play();
-                $('#image_controls').attr('src', '/media/images/pause.png');
+                $('#img_controls').attr('src', '/media/images/pause.png');
             }
 
             function pause(){
                 audioElement.pause();
-                $('#image_controls').attr('src', '/media/images/play.png');
+                $('#img_controls').attr('src', '/media/images/play.png');
 
                 $.post('@Url.Action("Pause", "Visit")', { id: visitId }, function (data) { });
             }
