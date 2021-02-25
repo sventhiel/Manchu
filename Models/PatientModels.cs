@@ -24,18 +24,20 @@ namespace Manchu.Models
         {
             var base64 = "";
 
-            using (var ms = new MemoryStream())
-            {
-                QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{url}?id={patient.Id}", QRCodeGenerator.ECCLevel.Q);
-                QRCode qrCode = new QRCode(qrCodeData);
+            //using (var ms = new MemoryStream())
+            //{
+            //    Bitmap baseImage = (Bitmap)Image.FromFile(@"~/media/images/manchu.png");
 
-                using (var bitmap = new Bitmap(qrCode.GetGraphic(20)))
-                {
-                    bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    base64 = System.Convert.ToBase64String(ms.GetBuffer()); //Get Base64
-                }
-            }
+            //    QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            //    QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{url}?id={patient.Id}", QRCodeGenerator.ECCLevel.Q);
+            //    QRCode qrCode = new QRCode(qrCodeData);
+
+            //    using (var bitmap = new Bitmap(qrCode.GetGraphic(20)))
+            //    {
+            //        bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+            //        base64 = System.Convert.ToBase64String(ms.GetBuffer()); //Get Base64
+            //    }
+            //}
 
             return new PatientGridItemModel()
             {
