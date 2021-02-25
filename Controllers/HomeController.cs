@@ -19,14 +19,14 @@ namespace Manchu.Controllers
             _connectionString = connectionString;
         }
 
-        public IActionResult Index(Guid id)
+        public IActionResult Index(Guid code)
         {
             var patientServive = new PatientService(_connectionString);
 
-            if (patientServive.FindById(id) == null)
+            if (patientServive.FindByCode(code) == null)
                 return RedirectToAction("Privacy");
 
-            return View(model: id);
+            return View(model: code);
         }
 
         public IActionResult Privacy()
