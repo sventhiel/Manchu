@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LazZiya.ImageResize" Version="3.0.2" />
     <PackageReference Include="LiteDB" Version="5.0.9" />
     <PackageReference Include="QRCoder" Version="1.4.1" />
   </ItemGroup>
@@ -13,5 +14,10 @@
     <Content Update="wwwroot\media\images\manchu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Database\" />
+    <Folder Include="wwwroot\media\codes\" />
   </ItemGroup>
 </Project>

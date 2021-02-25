@@ -1,0 +1,16 @@
+﻿@model CreatePatientModel
+
+<form asp-controller="Patient" asp-action="Create"
+      data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+      data-ajax-failure="onFailed" data-ajax-success="onSuccess"
+      data-ajax="true" data-ajax-method="POST">
+
+    <label for="Name">Name</label>
+    <input type="text" name="Name" />
+
+    <label for="Reference">Reference</label>
+    <input type="text" name="Reference" />
+
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <div id="Results"></div>
+</form>
