@@ -403,3 +403,4 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+/wwwroot/media/codes/*png
