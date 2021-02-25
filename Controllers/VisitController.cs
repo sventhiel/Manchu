@@ -17,13 +17,13 @@ namespace Manchu.Controllers
         }
 
         [HttpPost]
-        public Guid Create(Guid patientId)
+        public Guid Create(Guid code)
         {
             var patientService = new PatientService(_connectionString);
             var visitService = new VisitService(_connectionString);
 
-            if (patientService.FindById(patientId) != null)
-                return visitService.Create(patientId);
+            if (patientService.FindByCode(code) != null)
+                return visitService.Create(code);
 
             return Guid.Empty;
         }
@@ -76,11 +76,11 @@ namespace Manchu.Controllers
             return false;
         }
 
-        public IActionResult Index(Guid patientId)
+        public IActionResult Index(Guid code)
         {
             var visitService = new VisitService(_connectionString);
 
-            var visits = visitService.FindByPatientId(patientId).ToList();
+            var visits = visitService.FindByCode(code).ToList();
 
             var model = visits.Select(v => VisitGridItemModel.Convert(v));
 
