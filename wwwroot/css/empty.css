@@ -16,7 +16,7 @@ img {
     display: block;
 }
 
-#div_manchu .img_manchu {
+#div_manchu #img_manchu {
     height: 100%;
     margin: 0 auto;
     /* width: auto; */
@@ -31,7 +31,7 @@ img {
     margin: 0 auto;
 }
 
-#div_manchu #div_controls .img_controls {
+#div_manchu #div_controls #img_controls {
     height: 100%;
     width: 100%;
 }
