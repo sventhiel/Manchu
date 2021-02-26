@@ -1,26 +1,15 @@
 ﻿body, html {
-    height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-    width: 100vw;
+    max-width: calc(var(--vw, 1vw) * 100);
+    max-height: calc(var(--vh, 1vh) * 100);
     width: calc(var(--vw, 1vw) * 100);
     margin: 0;
-}
-
-#div_manchu {
-    position: relative;
-    height: 100vh;
-    width: fit-content;
-    margin: 0 auto;
 }
 
 img {
     display: block;
 }
 
-#div_manchu #img_manchu {
-    height: 100%;
-    margin: 0 auto;
-}
 
 #div_manchu #div_controls {
     position: absolute;
@@ -34,4 +23,49 @@ img {
 #div_manchu #div_controls #img_controls {
     height: 100%;
     width: 100%;
+}
+
+@media (max-aspect-ratio: 2746/3688) {
+    #div_manchu #img_manchu {
+        width: 100%;
+        margin: 0 auto;
+        max-height: 100%;
+    }
+
+    #div_manchu {
+        position: relative;
+        height: -webkit-fit-content;
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
+@media (aspect-ratio: 2746/3687) {
+    #div_manchu #img_manchu {
+        height: 100%;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    #div_manchu {
+        position: relative;
+        height: 100%;
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
+@media (min-aspect-ratio: 2746/3686) {
+    #div_manchu #img_manchu {
+        height: 100%;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+
+    #div_manchu {
+        position: relative;
+        height: 100%;
+        margin: 0 auto;
+        width: -webkit-fit-content;
+    }
 }
