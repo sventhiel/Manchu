@@ -87,7 +87,12 @@ namespace Manchu.Services
 
         public ILiteQueryable<Patient> Query()
         {
-            throw new NotImplementedException();
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var col = db.GetCollection<Patient>("patients");
+
+                return col.Query();
+            }
         }
     }
 }
