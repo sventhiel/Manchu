@@ -67,7 +67,7 @@
 
             function play() {
                 if (audioElement.currentTime == 0) {
-                    $.post('@Url.Action("Create", "Visit")', { patientId: '@Model' }, function (data) {
+                    $.post('@Url.Action("Create", "Visit")', { code: '@Model' }, function (data) {
                     visitId = data;
                 });
                 }
