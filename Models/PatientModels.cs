@@ -20,7 +20,7 @@ namespace Manchu.Models
         public string Name { get; set; }
         public string Reference { get; set; }
 
-        public static PatientGridItemModel Convert(Patient patient, string url)
+        public static PatientGridItemModel Convert(Patient patient)
         {
             return new PatientGridItemModel()
             {
