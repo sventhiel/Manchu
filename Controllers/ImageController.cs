@@ -27,11 +27,25 @@ namespace Manchu.Controllers
             return View();
         }
 
-        public void CreateQRCode(int id)
+        public IActionResult CreateQRCodes()
         {
             var patientService = new PatientService(_connectionString);
 
-            var patient = patientService.FindById(id);
+            var codes = patientService.Query().Select(p => p.Code).ToList();
+
+            foreach (var code in codes)
+            {
+                CreateQRCode(code);
+            }
+
+            return RedirectToAction("Index", "Patient");
+        }
+
+        public void CreateQRCode(Guid code)
+        {
+            var patientService = new PatientService(_connectionString);
+
+            var patient = patientService.FindByCode(code);
 
             var iwmOps = new ImageWatermarkOptions
             {
@@ -60,8 +74,6 @@ namespace Manchu.Controllers
                     .AddTextWatermark($"{patient.Id}", twmOps)
                     .SaveAs($"./wwwroot/media/codes/{patient.Code}.png");
             }
-
-            
         }
     }
 }
