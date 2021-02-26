@@ -57,7 +57,7 @@ namespace Manchu.Services
             {
                 var col = db.GetCollection<Visit>("visits");
 
-                var visits = col.Query().Where(p => p.Code == code);
+                var visits = col.Query().Where(v => v.Code == code);
 
                 return visits;
             }
