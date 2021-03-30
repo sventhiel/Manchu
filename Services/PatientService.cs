@@ -6,15 +6,13 @@ namespace Manchu.Services
 {
     public interface IPatientService
     {
-        Guid Create(string name, string reference);
+        Guid Create();
 
         bool Delete(int id);
 
         Patient FindById(int id);
 
         Patient FindByCode(Guid code);
-
-        Patient FindByReference(string reference);
 
         ILiteQueryable<Patient> Query();
     }
@@ -28,14 +26,12 @@ namespace Manchu.Services
             _connectionString = connectionString;
         }
 
-        public Guid Create(string name = "", string reference = "")
+        public Guid Create()
         {
             using (var db = new LiteDatabase(_connectionString))
             {
                 Patient patient = new Patient
                 {
-                    Name = name,
-                    Reference = reference,
                     Code = Guid.NewGuid()
                 };
 
@@ -62,16 +58,6 @@ namespace Manchu.Services
                 var col = db.GetCollection<Patient>("patients");
 
                 return col.FindById(id);
-            }
-        }
-
-        public Patient FindByReference(string reference)
-        {
-            using (var db = new LiteDatabase(_connectionString))
-            {
-                var col = db.GetCollection<Patient>("patients");
-
-                return col.FindOne(p => p.Reference == reference);
             }
         }
 
