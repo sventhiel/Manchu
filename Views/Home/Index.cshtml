@@ -7,7 +7,7 @@
 <div id="div_manchu">
     <img id="img_manchu" src="/media/images/manchu.png">
     <div id="div_controls">
-        <img id="img_controls" src="/media/images/play.png">
+        <img id="img_controls" src="/media/images/play.png" class="paused">
     </div>
 </div>
 
@@ -21,6 +21,15 @@
             // Then we set the value in the --vh custom property to the root of the document
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             document.documentElement.style.setProperty('--vw', `${vw}px`);
+
+            var imgControls = document.getElementById('img_controls');
+
+            someElement.addEventListener('touchend', process_touchend, false);
+
+            function process_touchend(ev) {
+                // Use the event's data to call out to the appropriate gesture handlers
+                alert('touch');
+            }
 
             var audioElement = document.createElement('audio');
             audioElement.setAttribute('src', '/media/audios/manchu.mp3');
@@ -74,11 +83,13 @@
 
                 audioElement.play();
                 $('#img_controls').attr('src', '/media/images/pause.png');
+                $('#img_controls').attr('class', 'playing');
             }
 
             function pause(){
                 audioElement.pause();
                 $('#img_controls').attr('src', '/media/images/play.png');
+                $('#img_controls').attr('class', 'paused');
 
                 $.post('@Url.Action("Pause", "Visit")', { id: visitId }, function (data) { });
             }
@@ -91,7 +102,6 @@
                 let vw = window.innerWidth * 0.01;
                 document.documentElement.style.setProperty('--vw', `${vw}px`);
             });
-
         });
     </script>
 }

@@ -9,8 +9,6 @@
             <tr>
                 <th>Id</th>
                 <th>Code</th>
-                <th>Name</th>
-                <th>Reference</th>
                 <th>QR Code</th>
                 <th>Visits</th>
             </tr>
@@ -21,8 +19,6 @@
                 <tr>
                     <td>@patient.Id</td>
                     <td>@patient.Code</td>
-                    <td>@patient.Name</td>
-                    <td>@patient.Reference</td>
                     <td><img height="200px" src="/media/codes/@(patient.Code).png" /></td>
                     <td>@Html.ActionLink("...", "Index", "Visit", new { code = patient.Code }, null)</td>
                 </tr>
