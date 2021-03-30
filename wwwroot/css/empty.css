@@ -10,7 +10,6 @@ img {
     display: block;
 }
 
-
 #div_manchu #div_controls {
     position: absolute;
     top: 42%;
@@ -20,10 +19,29 @@ img {
     margin: 0 auto;
 }
 
+#div_controls {
+    background: url('../media/images/empty.png') no-repeat center;
+    background-size: contain;
+}
+
 #div_manchu #div_controls #img_controls {
     height: 100%;
     width: 100%;
 }
+
+#img_controls {
+    opacity: 1;
+}
+
+    #img_controls.playing:hover {
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+
+    #img_controls.playing:not(:hover) {
+        opacity: 0;
+        transition: opacity 1s linear;
+    }
 
 @media (max-aspect-ratio: 2746/3688) {
     #div_manchu #img_manchu {
@@ -67,5 +85,17 @@ img {
         height: 100%;
         margin: 0 auto;
         width: -webkit-fit-content;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    #img_controls.playing:active {
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+
+    #img_controls.playing:not(:active) {
+        opacity: 0;
+        transition: opacity 1s linear;
     }
 }
