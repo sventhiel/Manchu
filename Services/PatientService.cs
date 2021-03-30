@@ -6,8 +6,7 @@ namespace Manchu.Services
 {
     public interface IPatientService
     {
-        Guid Create();
-
+        int Create();
         bool Delete(int id);
 
         Patient FindById(int id);
@@ -26,7 +25,7 @@ namespace Manchu.Services
             _connectionString = connectionString;
         }
 
-        public Guid Create()
+        public int Create()
         {
             using (var db = new LiteDatabase(_connectionString))
             {
