@@ -3,13 +3,7 @@ using LiteDB;
 using Manchu.Services;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Manchu.Controllers
 {
@@ -31,21 +25,21 @@ namespace Manchu.Controllers
         {
             var patientService = new PatientService(_connectionString);
 
-            var codes = patientService.Query().Select(p => p.Code).ToList();
+            var ids = patientService.Query().Select(p => p.Id).ToList();
 
-            foreach (var code in codes)
+            foreach (var id in ids)
             {
-                CreateQRCode(code);
+                CreateQRCode(id);
             }
 
             return RedirectToAction("Index", "Patient");
         }
 
-        public void CreateQRCode(Guid code)
+        public void CreateQRCode(int id)
         {
             var patientService = new PatientService(_connectionString);
 
-            var patient = patientService.FindByCode(code);
+            var patient = patientService.FindById(id);
 
             var iwmOps = new ImageWatermarkOptions
             {
@@ -59,7 +53,6 @@ namespace Manchu.Controllers
                 FontSize = 32,
                 FontName = "Lato",
                 TextColor = Color.Black
-                
             };
 
             using (var img = Image.FromFile($"./wwwroot/media/images/manchu.png"))

@@ -1,8 +1,8 @@
 ﻿using LiteDB;
 using Manchu.Entities;
 using Manchu.Models;
+using Manchu.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,22 +32,14 @@ namespace Manchu.Controllers
             return View(model);
         }
 
+        [HttpPost]
         public IActionResult Bunch(int amount)
         {
+            var patientService = new PatientService(_connectionString);
+
             for (int i = 0; i < amount; i++)
             {
-                using (var db = new LiteDatabase(_connectionString))
-                {
-                    var col = db.GetCollection<Patient>("patients");
-
-                    // Create your new customer instance
-                    var patient = new Patient
-                    {
-                        Code = Guid.NewGuid()
-                    };
-
-                    col.Insert(patient);
-                }
+                patientService.Create();
             }
 
             return RedirectToAction("Index");
@@ -55,26 +47,9 @@ namespace Manchu.Controllers
 
         public IActionResult Create()
         {
-            return View(new CreatePatientModel());
-        }
+            var patientService = new PatientService(_connectionString);
 
-        [HttpPost]
-        public IActionResult Create(CreatePatientModel model)
-        {
-            using (var db = new LiteDatabase(_connectionString))
-            {
-                var col = db.GetCollection<Patient>("patients");
-
-                // Create your new customer instance
-                var patient = new Patient
-                {
-                    Name = model.Name,
-                    Reference = model.Reference,
-                    Code = Guid.NewGuid()
-                };
-
-                col.Insert(patient);
-            }
+            patientService.Create();
 
             return RedirectToAction("Index");
         }
@@ -82,27 +57,6 @@ namespace Manchu.Controllers
         public IActionResult Update()
         {
             return View();
-        }
-
-        [HttpPost]
-        public IActionResult Update(CreatePatientModel model)
-        {
-            using (var db = new LiteDatabase(_connectionString))
-            {
-                var col = db.GetCollection<Patient>("patients");
-
-                // Create your new customer instance
-                var patient = new Patient
-                {
-                    Name = model.Name,
-                    Reference = model.Reference,
-                    Code = Guid.NewGuid()
-                };
-
-                col.Insert(patient);
-            }
-
-            return RedirectToAction("Index");
         }
     }
 }
