@@ -16,7 +16,6 @@
         $(document).ready(function () {
 
             var isTouchDevice = Modernizr.touch;
-            alert(isTouchDevice);
 
             // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
             let vh = window.innerHeight * 0.01;
@@ -26,14 +25,6 @@
             document.documentElement.style.setProperty('--vw', `${vw}px`);
 
             var imgControls = document.getElementById('img_controls');
-            imgControls.addEventListener('touchend', process_touchend, false);
-
-            function process_touchend(ev) {
-                // Use the event's data to call out to the appropriate gesture handlers
-                const styles = window.getComputedStyle(imgControls);
-                const opacity = styles.opacity;
-                alert(opacity);
-            }
 
             var audioElement = document.createElement('audio');
             audioElement.setAttribute('src', '/media/audios/manchu.mp3');
@@ -43,7 +34,19 @@
 
             $('#div_controls').bind("click", function () {
                 if (!audioElement.paused) {
-                    pause();
+                    if (isTouchDevice) {
+                        const styles = window.getComputedStyle(imgControls);
+                        const opacity = styles.opacity;
+
+                        if (opacity > 0) {
+                            pause();
+                        } else {
+                            $('#img_controls').attr('class', '');
+                            $('#img_controls').attr('class', 'playing');
+                        }
+                    } else {
+                        pause();
+                    }
                 } else {
                     play();
                 }
