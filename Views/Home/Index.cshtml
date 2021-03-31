@@ -34,9 +34,9 @@
                 if (!audioElement.paused) {
                     if (isTouchDevice) {
                         var imgControls = document.getElementById('img_controls');
-                        var styles = document.getComputedStyle(imgControls);
+                        var styles = window.getComputedStyle(imgControls);
                         var opacity = styles.opacity;
-                        if (opacity < "1") {
+                        if (opacity < 1) {
                             $('#img_controls').attr('class', 'paused');
                             $('#img_controls').attr('class', 'playing');
                         } else {
