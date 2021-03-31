@@ -22,14 +22,14 @@
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             document.documentElement.style.setProperty('--vw', `${vw}px`);
 
-            var imgControls = document.getElementById('img_controls');
+            //var imgControls = document.getElementById('img_controls');
+            document.addEventListener("touchstart", function () { }, true);
+            //imgControls.addEventListener('touchend', process_touchend, false);
 
-            imgControls.addEventListener('touchend', process_touchend, false);
-
-            function process_touchend(ev) {
-                // Use the event's data to call out to the appropriate gesture handlers
-                alert('touch');
-            }
+            //function process_touchend(ev) {
+            //    // Use the event's data to call out to the appropriate gesture handlers
+            //    alert('touch');
+            //}
 
             var audioElement = document.createElement('audio');
             audioElement.setAttribute('src', '/media/audios/manchu.mp3');
