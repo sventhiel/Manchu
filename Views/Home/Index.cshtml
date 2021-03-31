@@ -24,8 +24,6 @@
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             document.documentElement.style.setProperty('--vw', `${vw}px`);
 
-            var imgControls = document.getElementById('img_controls');
-
             var audioElement = document.createElement('audio');
             audioElement.setAttribute('src', '/media/audios/manchu.mp3');
 
@@ -35,13 +33,17 @@
             $('#div_controls').bind("click", function () {
                 if (!audioElement.paused) {
                     if (isTouchDevice) {
-                        const styles = window.getComputedStyle(imgControls);
-                        const opacity = styles.opacity;
-
+                        alert(isTouchDevice);
+                        var imgControls = document.getElementById('img_controls');
+                        var styles = window.getComputedStyle(imgControls);
+                        var opacity = styles.opacity;
+                        alert(opacity);
                         if (opacity < 1) {
-                            document.getElementById("img_controls").style.opacity = "1";
-                            $('#img_controls').attr('class', 'playing'); 
+                            alert('JA!');
+                            $('#img_controls').attr('class', 'paused');
+                            $('#img_controls').attr('class', 'playing');
                         } else {
+                            alert('NEIN!');
                             pause();
                         }
                     } else {
