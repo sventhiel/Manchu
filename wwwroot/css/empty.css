@@ -40,8 +40,9 @@ img {
 
     #img_controls.playing:not(:hover) {
         opacity: 0;
-        transition-delay: 1s;
-        transition: opacity 1s linear;
+        transition-delay: 2.5s;
+        transition-property: opacity;
+        transition-duration: 2.5s;
     }
 
 @media (max-aspect-ratio: 2746/3688) {
