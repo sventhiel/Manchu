@@ -35,7 +35,8 @@ img {
 
     #img_controls.playing:hover {
         opacity: 1;
-        transition: opacity 1s linear;
+        transition-property: opacity;
+        transition-duration: 2.5s;
     }
 
     #img_controls.playing:not(:hover) {
@@ -90,7 +91,7 @@ img {
     }
 }
 
-@media (hover: none) and (pointer: coarse) {
+/*@media (hover: none) and (pointer: coarse) {
     #img_controls.playing:active {
         opacity: 1;
         transition: opacity 1s linear;
@@ -100,4 +101,4 @@ img {
         opacity: 0;
         transition: opacity 1s linear;
     }
-}
+}*/
