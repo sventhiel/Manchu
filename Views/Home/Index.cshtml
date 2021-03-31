@@ -27,7 +27,9 @@
 
             function process_touchend(ev) {
                 // Use the event's data to call out to the appropriate gesture handlers
-                alert(imgControls.style.opacity);
+                const styles = window.getComputedStyle(imgControls);
+                const opacity = styles.opacity;
+                alert(opacity);
             }
 
             var audioElement = document.createElement('audio');
