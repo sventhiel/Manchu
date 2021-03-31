@@ -29,10 +29,6 @@ img {
     width: 100%;
 }
 
-#img_controls {
-    opacity: 1;
-}
-
     #img_controls.playing:hover {
         opacity: 1;
         transition-property: opacity;

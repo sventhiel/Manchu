@@ -16,6 +16,16 @@
         $(document).ready(function () {
 
             var isTouchDevice = Modernizr.touch;
+            var opacity = 1;
+
+            var imgControls = document.getElementById("img_controls");
+            imgControls.addEventListener("touchstart", handleStart, false);
+
+            function handleStart(evt) {
+                var imgControls = document.getElementById('img_controls');
+                var styles = window.getComputedStyle(imgControls);
+                opacity = styles.opacity;
+            }
 
             // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
             let vh = window.innerHeight * 0.01;
@@ -33,12 +43,7 @@
             $('#div_controls').bind("click", function () {
                 if (!audioElement.paused) {
                     if (isTouchDevice) {
-                        var imgControls = document.getElementById('img_controls');
-                        var styles = window.getComputedStyle(imgControls);
-                        var opacity = styles.opacity;
-                        if (opacity < 1) {
-                            $('#img_controls').attr('class', 'paused');
-                            $('#img_controls').attr('class', 'playing');
+                        if (opacity < "1") {
                         } else {
                             pause();
                         }
