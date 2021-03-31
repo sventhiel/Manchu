@@ -38,11 +38,11 @@
                         const styles = window.getComputedStyle(imgControls);
                         const opacity = styles.opacity;
 
-                        if (opacity > 0) {
-                            pause();
+                        if (opacity < 1) {
+                            document.getElementById("img_controls").style.opacity = "1";
+                            //$('#img_controls').attr('class', 'playing'); 
                         } else {
-                            styles.opacity = 1;
-                            //$('#img_controls').attr('class', 'playing');
+                            pause();
                         }
                     } else {
                         pause();
