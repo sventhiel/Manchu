@@ -33,17 +33,13 @@
             $('#div_controls').bind("click", function () {
                 if (!audioElement.paused) {
                     if (isTouchDevice) {
-                        alert(isTouchDevice);
                         var imgControls = document.getElementById('img_controls');
-                        var styles = window.getComputedStyle(imgControls);
+                        var styles = document.getComputedStyle(imgControls);
                         var opacity = styles.opacity;
-                        alert(opacity);
-                        if (opacity < 1) {
-                            alert('JA!');
+                        if (opacity !== "1") {
                             $('#img_controls').attr('class', 'paused');
                             $('#img_controls').attr('class', 'playing');
                         } else {
-                            alert('NEIN!');
                             pause();
                         }
                     } else {
