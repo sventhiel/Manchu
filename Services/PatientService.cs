@@ -40,6 +40,21 @@ namespace Manchu.Services
             }
         }
 
+        public int Create(Guid code)
+        {
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                Patient patient = new Patient
+                {
+                    Code = code
+                };
+
+                var col = db.GetCollection<Patient>("patients");
+
+                return col.Insert(patient);
+            }
+        }
+
         public bool Delete(int id)
         {
             using (var db = new LiteDatabase(_connectionString))
