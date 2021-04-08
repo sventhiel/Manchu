@@ -3,6 +3,7 @@ using Manchu.Entities;
 using Manchu.Models;
 using Manchu.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -45,11 +46,23 @@ namespace Manchu.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Create()
+        public IActionResult New()
         {
             var patientService = new PatientService(_connectionString);
 
             patientService.Create();
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Create(Guid code)
+        {
+            if(code != null)
+            {
+                var patientService = new PatientService(_connectionString);
+
+                patientService.Create(code);
+            }
 
             return RedirectToAction("Index");
         }

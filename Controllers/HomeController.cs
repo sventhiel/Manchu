@@ -24,12 +24,17 @@ namespace Manchu.Controllers
             var patientServive = new PatientService(_connectionString);
 
             if (patientServive.FindByCode(code) == null)
-                return RedirectToAction("Privacy");
+                return RedirectToAction("Info");
 
             return View(model: code);
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult Info()
         {
             return View();
         }
