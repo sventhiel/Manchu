@@ -2,6 +2,7 @@
 using Manchu.Entities;
 using Manchu.Models;
 using Manchu.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 
 namespace Manchu.Controllers
 {
+    [Authorize]
     public class PatientController : Controller
     {
         private readonly ConnectionString _connectionString;
@@ -33,7 +35,6 @@ namespace Manchu.Controllers
             return View(model);
         }
 
-        [HttpPost]
         public IActionResult Bunch(int amount)
         {
             var patientService = new PatientService(_connectionString);
