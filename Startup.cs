@@ -1,4 +1,5 @@
 using LiteDB;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,8 +20,13 @@ namespace Manchu
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<ConnectionString>(new ConnectionString(Configuration.GetConnectionString("Manchu")));
+            services.AddSingleton(new ConnectionString(Configuration.GetConnectionString("Manchu")));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+            });
             services.AddControllersWithViews();
         }
 
@@ -42,6 +48,7 @@ namespace Manchu
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
