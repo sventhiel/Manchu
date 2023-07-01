@@ -4,10 +4,12 @@ using Manchu.Services;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
 using System.Drawing;
+using System.Net.Http;
 
 namespace Manchu.Controllers
 {
-    public class ImageController : Controller
+    [ApiController, Route("api")]
+    public class ImageController : ControllerBase
     {
         private readonly ConnectionString _connectionString;
 
@@ -16,11 +18,7 @@ namespace Manchu.Controllers
             _connectionString = connectionString;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        [HttpPost("QRCodes")]
         public IActionResult CreateQRCodes()
         {
             var patientService = new PatientService(_connectionString);
@@ -32,9 +30,10 @@ namespace Manchu.Controllers
                 CreateQRCode(id);
             }
 
-            return RedirectToAction("Index", "Patient");
+            return Ok("getan!");
         }
 
+        [HttpPost("QRCode/{id}")]
         public void CreateQRCode(int id)
         {
             var patientService = new PatientService(_connectionString);
