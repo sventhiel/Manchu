@@ -29,18 +29,18 @@ img {
     width: 100%;
 }
 
-    #img_controls.playing:hover {
-        opacity: 1;
-        transition-property: opacity;
-        transition-duration: 2.5s;
-    }
+#img_controls.playing:hover {
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 2.5s;
+}
 
-    #img_controls.playing:not(:hover) {
-        opacity: 0;
-        transition-delay: 2.5s;
-        transition-property: opacity;
-        transition-duration: 2.5s;
-    }
+#img_controls.playing:not(:hover) {
+    opacity: 0;
+    transition-delay: 2.5s;
+    transition-property: opacity;
+    transition-duration: 2.5s;
+}
 
 @media (max-aspect-ratio: 2746/3688) {
     #div_manchu #img_manchu {
