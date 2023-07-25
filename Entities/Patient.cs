@@ -7,10 +7,5 @@ namespace Manchu.Entities
         public int Id { get; set; }
         public Guid Code { get; set; }
         public int Number { get; set; }
-
-        public Patient()
-        {
-            Code = Guid.NewGuid();
-        }
     }
 }
