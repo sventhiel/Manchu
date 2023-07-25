@@ -1,17 +1,16 @@
 ﻿using LiteDB;
-using Manchu.Entities;
 using Manchu.Models;
 using Manchu.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
 using System.Linq;
 
 namespace Manchu.Controllers
 {
-    [Authorize]
-    public class PatientController : Controller
+    [ApiController, Route("api"), Authorize(Roles = "admin")]
+    public class PatientController : ControllerBase
     {
         private readonly ConnectionString _connectionString;
 
@@ -20,57 +19,51 @@ namespace Manchu.Controllers
             _connectionString = connectionString;
         }
 
-        public IActionResult Index()
+        [HttpGet("patients")]
+        public IActionResult Get()
         {
-            List<Patient> patients = null;
+            var patientService = new PatientService(_connectionString);
+            var patients = patientService.FindAll();
 
-            using (var db = new LiteDatabase(_connectionString))
-            {
-                var col = db.GetCollection<Patient>("patients");
-
-                patients = col.Query().ToList();
-            }
-            var model = patients.Select(p => PatientGridItemModel.Convert(p));
-
-            return View(model);
+            return Ok(patients.Select(p => ReadPatientModel.Convert(p)));
         }
 
-        public IActionResult Bunch(int amount)
+        [HttpGet("patients/{id}")]
+        public IActionResult GetById(int id)
+        {
+            var patientService = new PatientService(_connectionString);
+            var patient = patientService.FindById(id);
+
+            return Ok(ReadPatientModel.Convert(patient));
+        }
+
+        [HttpPost("patients")]
+        public IActionResult Post(CreatePatientModel model)
         {
             var patientService = new PatientService(_connectionString);
 
-            for (int i = 0; i < amount; i++)
-            {
-                patientService.Create();
-            }
+            var id = patientService.Create(model.Code, model.Number);
 
-            return RedirectToAction("Index");
+            if (id == null)
+                return BadRequest("Oops, there was an issue.");
+
+            return Ok($"The patient with id={id} has been created successfully.");
         }
 
-        public IActionResult New()
+        [HttpPut("patients/{id}/number")]
+        public IActionResult Put(int id, int number)
         {
             var patientService = new PatientService(_connectionString);
 
-            patientService.Create();
+            if (patientService.FindByNumber(number) != null)
+                return BadRequest("Oops, there was an issue.");
 
-            return RedirectToAction("Index");
-        }
+            var patient = patientService.FindById(id);
 
-        public IActionResult Create(Guid code)
-        {
-            if(code != null)
-            {
-                var patientService = new PatientService(_connectionString);
+            patient.Number = number;
+            patientService.Update(patient);
 
-                patientService.Create(code);
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult Update()
-        {
-            return View();
+            return Ok($"The patient with id={id} has been updated successfully.");
         }
     }
 }
