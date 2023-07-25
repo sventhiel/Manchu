@@ -1,14 +1,15 @@
 ﻿using LazZiya.ImageResize;
 using LiteDB;
 using Manchu.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
+using System.Data;
 using System.Drawing;
-using System.Net.Http;
 
 namespace Manchu.Controllers
 {
-    [ApiController, Route("api")]
+    [ApiController, Route("api"), Authorize(Roles = "admin")]
     public class ImageController : ControllerBase
     {
         private readonly ConnectionString _connectionString;
@@ -18,8 +19,8 @@ namespace Manchu.Controllers
             _connectionString = connectionString;
         }
 
-        [HttpPost("QRCodes")]
-        public IActionResult CreateQRCodes()
+        [HttpPost("qrcodes")]
+        public IActionResult Create(bool numberAsWatermark)
         {
             var patientService = new PatientService(_connectionString);
 
@@ -27,14 +28,14 @@ namespace Manchu.Controllers
 
             foreach (var id in ids)
             {
-                CreateQRCode(id);
+                Create(id, numberAsWatermark);
             }
 
             return Ok("getan!");
         }
 
-        [HttpPost("QRCode/{id}")]
-        public void CreateQRCode(int id)
+        [HttpPost("qrcodes/{id}")]
+        public IActionResult Create(int id, bool numberAsWatermark)
         {
             var patientService = new PatientService(_connectionString);
 
@@ -61,11 +62,18 @@ namespace Manchu.Controllers
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{url}?code={patient.Code}", QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
 
+                if(numberAsWatermark)
+                    img.AddImageWatermark(qrCode.GetGraphic(25, Color.Black, Color.Transparent, true), iwmOps)
+                        .ScaleByWidth(500)
+                        .AddTextWatermark($"{patient.Number}", twmOps)
+                        .SaveAs($"./wwwroot/media/codes/{patient.Code}.png");
+
                 img.AddImageWatermark(qrCode.GetGraphic(25, Color.Black, Color.Transparent, true), iwmOps)
-                    .ScaleByWidth(500)
-                    .AddTextWatermark($"{patient.Id}", twmOps)
-                    .SaveAs($"./wwwroot/media/codes/{patient.Code}.png");
+                        .ScaleByWidth(500)
+                        .SaveAs($"./wwwroot/media/codes/{patient.Code}.png");
             }
+
+            return Ok("getan!");
         }
     }
 }
