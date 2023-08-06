@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
-using System.Text;
-using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace Manchu.Authentication
 {
@@ -66,7 +66,6 @@ namespace Manchu.Authentication
                 Response.StatusCode = 401;
                 Response.Headers.Add("www-authenticate", "Basic Authorization");
                 return AuthenticateResult.Fail(new UnauthorizedAccessException());
-
             }
         }
     }

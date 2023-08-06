@@ -4,7 +4,6 @@ using Manchu.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
-using System.Data;
 using System.Drawing;
 
 namespace Manchu.Controllers
@@ -62,7 +61,7 @@ namespace Manchu.Controllers
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{url}?code={patient.Code}", QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
 
-                if(numberAsWatermark)
+                if (numberAsWatermark)
                     img.AddImageWatermark(qrCode.GetGraphic(25, Color.Black, Color.Transparent, true), iwmOps)
                         .ScaleByWidth(500)
                         .AddTextWatermark($"{patient.Number}", twmOps)

@@ -4,7 +4,6 @@ using Manchu.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using System.Globalization;
 using System.Linq;
 
 namespace Manchu.Controllers

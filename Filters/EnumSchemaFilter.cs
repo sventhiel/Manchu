@@ -1,9 +1,9 @@
 ﻿using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Runtime.Serialization;
 using System;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Manchu.Filters
 {

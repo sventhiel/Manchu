@@ -1,13 +1,9 @@
 ﻿using LiteDB;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using System.IO.Compression;
-using System.IO;
-using System;
 using Manchu.Extensions;
-using Manchu.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
 
 namespace Manchu.Controllers
 {
