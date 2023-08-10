@@ -19,6 +19,11 @@ namespace Manchu.Controllers
             _admins = configuration.GetSection("Admins").Get<List<Admin>>();
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -56,11 +61,6 @@ namespace Manchu.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index");
-        }
-
-        public IActionResult AccessDenied()
-        {
-            return View();
         }
     }
 }

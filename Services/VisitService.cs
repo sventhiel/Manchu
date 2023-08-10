@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using Manchu.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace Manchu.Services
 {
@@ -8,11 +9,11 @@ namespace Manchu.Services
     {
         Guid Create(Guid code);
 
-        bool Update(Visit visit);
-
         Visit FindById(Guid id);
 
-        ILiteQueryable<Visit> FindByCode(Guid code);
+        List<Visit> FindByPatientId(Guid patientId);
+
+        bool Update(Visit visit);
     }
 
     public class VisitService : IVisitService
@@ -24,20 +25,37 @@ namespace Manchu.Services
             _connectionString = connectionString;
         }
 
-        public Guid Create(Guid code)
+        public Guid Create(Guid patientId)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
                 var col = db.GetCollection<Visit>("visits");
+                var patients = db.GetCollection<Patient>("patients");
 
                 var visit = new Visit()
                 {
-                    Code = code,
+                    Patient = patients.FindById(patientId),
                     Start = DateTimeOffset.UtcNow,
                     End = DateTimeOffset.MinValue,
                 };
 
                 return col.Insert(visit);
+            }
+        }
+
+        public List<Visit> FindAll()
+        {
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var visits = new List<Visit>();
+                var col = db.GetCollection<Visit>("visits");
+
+                foreach (var visit in col.FindAll())
+                {
+                    visits.Add(visit);
+                }
+
+                return visits;
             }
         }
 
@@ -47,17 +65,17 @@ namespace Manchu.Services
             {
                 var col = db.GetCollection<Visit>("visits");
 
-                return col.FindById(id);
+                return col.Include(v => v.Patient).FindById(id);
             }
         }
 
-        public ILiteQueryable<Visit> FindByCode(Guid code)
+        public List<Visit> FindByPatientId(Guid patientId)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
                 var col = db.GetCollection<Visit>("visits");
 
-                var visits = col.Query().Where(v => v.Code == code);
+                var visits = col.Query().Include(v => v.Patient).Where(v => v.Patient.Id == patientId).ToList();
 
                 return visits;
             }

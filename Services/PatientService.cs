@@ -8,13 +8,13 @@ namespace Manchu.Services
 {
     public interface IPatientService
     {
-        int? Create(Guid? code, int? number);
+        int? Create(Guid? id, int? number);
 
-        bool Delete(int id);
+        bool Delete(Guid id);
 
-        Patient FindById(int id);
+        Patient FindById(Guid id);
 
-        Patient FindByCode(Guid code);
+        Patient FindByNumber(int number);
 
         ILiteQueryable<Patient> Query();
     }
@@ -28,7 +28,7 @@ namespace Manchu.Services
             _connectionString = connectionString;
         }
 
-        public int? Create(Guid? code, int? number)
+        public int? Create(Guid? id, int? number)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
@@ -36,11 +36,11 @@ namespace Manchu.Services
 
                 Patient patient = new Patient
                 {
-                    Code = code ?? Guid.NewGuid(),
+                    Id = id ?? Guid.NewGuid(),
                     Number = number ?? col.Max(x => x.Number) + 1
                 };
 
-                if (col.Exists(p => p.Code == code))
+                if (col.Exists(p => p.Id == id))
                     return null;
 
                 if (col.Exists(p => p.Number == patient.Number))
@@ -50,7 +50,7 @@ namespace Manchu.Services
             }
         }
 
-        public bool Delete(int id)
+        public bool Delete(Guid id)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
@@ -76,28 +76,13 @@ namespace Manchu.Services
             }
         }
 
-        public Patient FindById(int id)
+        public Patient FindById(Guid id)
         {
             using (var db = new LiteDatabase(_connectionString))
             {
                 var col = db.GetCollection<Patient>("patients");
 
                 return col.FindById(id);
-            }
-        }
-
-        public Patient FindByCode(Guid code)
-        {
-            using (var db = new LiteDatabase(_connectionString))
-            {
-                var col = db.GetCollection<Patient>("patients");
-
-                var patients = col.Find(p => p.Code == code);
-
-                if (patients.Count() != 1)
-                    return null;
-
-                return patients.First();
             }
         }
 

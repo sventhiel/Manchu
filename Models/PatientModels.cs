@@ -3,39 +3,28 @@ using System;
 
 namespace Manchu.Models
 {
+    public class CreatePatientModel
+    {
+        public Guid? Id { get; set; }
+        public int? Number { get; set; }
+    }
+
     public class PatientGridItemModel
     {
-        public Guid Code { get; set; }
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public static PatientGridItemModel Convert(Patient patient)
         {
             return new PatientGridItemModel()
             {
-                Id = patient.Id,
-                Code = patient.Code
+                Id = patient.Id
             };
         }
     }
 
-    public class CreatePatientModel
-    {
-        public Guid? Code { get; set; }
-        public int? Number { get; set; }
-    }
-
-    public class UpdatePatientModel
-    {
-        public int Id { get; set; }
-        public Guid Code { get; set; }
-
-        public int Number { get; set; }
-    }
-
     public class ReadPatientModel
     {
-        public int Id { get; set; }
-        public Guid Code { get; set; }
+        public Guid Id { get; set; }
 
         public int Number { get; set; }
 
@@ -44,9 +33,15 @@ namespace Manchu.Models
             return new ReadPatientModel()
             {
                 Id = patient.Id,
-                Code = patient.Code,
                 Number = patient.Number
             };
         }
+    }
+
+    public class UpdatePatientModel
+    {
+        public Guid? Id { get; set; }
+
+        public int? Number { get; set; }
     }
 }

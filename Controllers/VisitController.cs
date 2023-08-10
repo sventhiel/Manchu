@@ -1,13 +1,16 @@
 ﻿using LiteDB;
 using Manchu.Models;
 using Manchu.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Data;
 using System.Linq;
 
 namespace Manchu.Controllers
 {
-    public class VisitController : Controller
+    [ApiController, Route("api")]
+    public class VisitController : ControllerBase
     {
         private readonly ConnectionString _connectionString;
 
@@ -16,75 +19,22 @@ namespace Manchu.Controllers
             _connectionString = connectionString;
         }
 
-        [HttpPost]
-        public Guid Create(Guid code)
+        [HttpGet("visits"), Authorize(Roles = "admin")]
+        public IActionResult Get()
         {
-            var patientService = new PatientService(_connectionString);
             var visitService = new VisitService(_connectionString);
+            var visits = visitService.FindAll();
 
-            if (patientService.FindByCode(code) != null)
-                return visitService.Create(code);
-
-            return Guid.Empty;
+            return Ok(visits.Select(p => ReadVisitModel.Convert(p)));
         }
 
-        [HttpPost]
-        public bool Stop(Guid id)
+        [HttpGet("visits/{patientId}"), Authorize(Roles = "admin")]
+        public IActionResult GetByPatientId(Guid patientId)
         {
             var visitService = new VisitService(_connectionString);
+            var visits = visitService.FindByPatientId(patientId);
 
-            var visit = visitService.FindById(id);
-
-            if (visit != null)
-            {
-                visit.End = DateTimeOffset.UtcNow;
-                return visitService.Update(visit);
-            }
-
-            return false;
-        }
-
-        [HttpPost]
-        public bool Pause(Guid id)
-        {
-            var visitService = new VisitService(_connectionString);
-
-            var visit = visitService.FindById(id);
-
-            if (visit != null)
-            {
-                visit.Breaks++;
-                return visitService.Update(visit);
-            }
-
-            return false;
-        }
-
-        [HttpPost]
-        public bool Update(Guid id, int position)
-        {
-            var visitService = new VisitService(_connectionString);
-
-            var visit = visitService.FindById(id);
-
-            if (visit != null)
-            {
-                visit.Position = position;
-                return visitService.Update(visit);
-            }
-
-            return false;
-        }
-
-        public IActionResult Index(Guid code)
-        {
-            var visitService = new VisitService(_connectionString);
-
-            var visits = visitService.FindByCode(code).ToList();
-
-            var model = visits.Select(v => VisitGridItemModel.Convert(v));
-
-            return View(model);
+            return Ok(visits.Select(p => ReadVisitModel.Convert(p)));
         }
     }
 }

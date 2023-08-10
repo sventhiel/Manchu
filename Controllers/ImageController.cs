@@ -4,6 +4,7 @@ using Manchu.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
+using System;
 using System.Drawing;
 
 namespace Manchu.Controllers
@@ -34,7 +35,7 @@ namespace Manchu.Controllers
         }
 
         [HttpPost("qrcodes/{id}")]
-        public IActionResult Create(int id, bool numberAsWatermark)
+        public IActionResult Create(Guid id, bool numberAsWatermark)
         {
             var patientService = new PatientService(_connectionString);
 
@@ -58,18 +59,22 @@ namespace Manchu.Controllers
             {
                 var url = $"{Request.Scheme}://{Request.Host.Value}/Home/Index";
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{url}?code={patient.Code}", QRCodeGenerator.ECCLevel.Q);
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{url}?code={patient.Id}", QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
 
                 if (numberAsWatermark)
+                {
                     img.AddImageWatermark(qrCode.GetGraphic(25, Color.Black, Color.Transparent, true), iwmOps)
                         .ScaleByWidth(500)
                         .AddTextWatermark($"{patient.Number}", twmOps)
-                        .SaveAs($"./wwwroot/media/codes/{patient.Code}.png");
-
-                img.AddImageWatermark(qrCode.GetGraphic(25, Color.Black, Color.Transparent, true), iwmOps)
+                        .SaveAs($"./wwwroot/media/codes/{patient.Id}.png");
+                }
+                else
+                {
+                    img.AddImageWatermark(qrCode.GetGraphic(25, Color.Black, Color.Transparent, true), iwmOps)
                         .ScaleByWidth(500)
-                        .SaveAs($"./wwwroot/media/codes/{patient.Code}.png");
+                        .SaveAs($"./wwwroot/media/codes/{patient.Id}.png");
+                }
             }
 
             return Ok("getan!");

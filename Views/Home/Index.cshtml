@@ -56,7 +56,7 @@
             });
 
             audioElement.addEventListener('ended', function () {
-                $.post('@Url.Action("Stop", "Visit")', { id: visitId, completed: true }, function (data) {
+                $.post('@Url.Action("StopVisit", "Home")', { id: visitId, completed: true }, function (data) {
 
                 });
 
@@ -67,7 +67,7 @@
                 var current = getPosition();
                 if (current > position) {
                     position = current;
-                    $.post('@Url.Action("Update", "Visit")', { id: visitId, position: position }, function (data) { });
+                    $.post('@Url.Action("UpdateVisit", "Home")', { id: visitId, position: position }, function (data) { });
                 }
             });
 
@@ -86,7 +86,7 @@
 
             function play() {
                 if (audioElement.currentTime == 0) {
-                    $.post('@Url.Action("Create", "Visit")', { code: '@Model' }, function (data) {
+                    $.post('@Url.Action("CreateVisit", "Home")', { code: '@Model' }, function (data) {
                     visitId = data;
                 });
                 }

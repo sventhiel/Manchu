@@ -16,8 +16,8 @@ namespace Manchu.Authentication
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        private ConnectionString _connectionString;
         private List<Admin> _admins;
+        private ConnectionString _connectionString;
 
         public BasicAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
