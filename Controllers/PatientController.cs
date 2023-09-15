@@ -47,12 +47,12 @@ namespace Manchu.Controllers
             return Ok(ReadPatientModel.Convert(patient));
         }
 
-        [HttpPost("patients/bulk/{startNumber}/{amount}")]
-        public IActionResult Post(int startNumber, int amount)
+        [HttpPost("patients/{startNumber}/{amount}")]
+        public IActionResult Bulk(int startNumber, int amount)
         {
             var patientService = new PatientService(_connectionString);
 
-            List<int> created = new List<int>();
+            List<Guid> created = new List<Guid>();
 
             for (int i = startNumber; i < startNumber + amount; i++)
             {
@@ -66,7 +66,7 @@ namespace Manchu.Controllers
         }
 
         [HttpPost("patients/{id}")]
-        public IActionResult PostWithModel(Guid id, int? number)
+        public IActionResult Post(Guid id, int? number)
         {
             var patientService = new PatientService(_connectionString);
 

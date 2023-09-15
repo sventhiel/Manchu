@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Manchu.Controllers
 {
-    [ApiController, Route("api")]
+    [ApiController, Route("api"), Authorize(Roles = "admin")]
     public class VisitController : ControllerBase
     {
         private readonly ConnectionString _connectionString;
@@ -19,7 +19,7 @@ namespace Manchu.Controllers
             _connectionString = connectionString;
         }
 
-        [HttpGet("visits"), Authorize(Roles = "admin")]
+        [HttpGet("visits")]
         public IActionResult Get()
         {
             var visitService = new VisitService(_connectionString);
@@ -28,7 +28,7 @@ namespace Manchu.Controllers
             return Ok(visits.Select(p => ReadVisitModel.Convert(p)));
         }
 
-        [HttpGet("visits/{patientId}"), Authorize(Roles = "admin")]
+        [HttpGet("visits/{patientId}")]
         public IActionResult GetByPatientId(Guid patientId)
         {
             var visitService = new VisitService(_connectionString);

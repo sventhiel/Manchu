@@ -18,29 +18,11 @@ namespace Manchu.Authentication
             {
                 return;
             }
-            if (operation.Parameters == null)
-                operation.Parameters = new List<OpenApiParameter>();
+            operation.Parameters ??= new List<OpenApiParameter>();
 
-            operation.Security = new List<OpenApiSecurityRequirement>();
-
-            //Add JWT bearer type
-            operation.Security.Add(new OpenApiSecurityRequirement
+            operation.Security = new List<OpenApiSecurityRequirement>
             {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            // Definition name.
-                            // Should exactly match the one given in the service configuration
-                            Id = "Bearer"
-                        }
-                    }, new string[0]
-                }
-            });
-
-            operation.Security.Add(new OpenApiSecurityRequirement
+                new OpenApiSecurityRequirement
             {
                 {
                     new OpenApiSecurityScheme
@@ -54,7 +36,8 @@ namespace Manchu.Authentication
                         }
                     }, new string[0]
                 }
-            });
+            }
+            };
         }
     }
 }
