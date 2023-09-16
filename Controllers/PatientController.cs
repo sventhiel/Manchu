@@ -20,6 +20,24 @@ namespace Manchu.Controllers
             _connectionString = connectionString;
         }
 
+        [HttpPost("patients/{startNumber}/{amount}")]
+        public IActionResult Bulk(int startNumber, int amount)
+        {
+            var patientService = new PatientService(_connectionString);
+
+            List<Guid> created = new List<Guid>();
+
+            for (int i = startNumber; i < startNumber + amount; i++)
+            {
+                var id = patientService.Create(null, i);
+
+                if (id.HasValue)
+                    created.Add(id.Value);
+            }
+
+            return Ok($"The patient(s) with numbers(s) ({string.Join(",", created)}) has/have been created successfully.");
+        }
+
         [HttpDelete("patients/{id}")]
         public IActionResult DeleteById(Guid id)
         {
@@ -47,35 +65,17 @@ namespace Manchu.Controllers
             return Ok(ReadPatientModel.Convert(patient));
         }
 
-        [HttpPost("patients/{startNumber}/{amount}")]
-        public IActionResult Bulk(int startNumber, int amount)
+        [HttpPost("patients")]
+        public IActionResult Post(CreatePatientModel model)
         {
             var patientService = new PatientService(_connectionString);
 
-            List<Guid> created = new List<Guid>();
+            var result = patientService.Create(model.Id, model.Number);
 
-            for (int i = startNumber; i < startNumber + amount; i++)
-            {
-                var id = patientService.Create(null, i);
-
-                if (id.HasValue)
-                    created.Add(id.Value);
-            }
-
-            return Ok($"The patient(s) with numbers(s) ({string.Join(",", created)}) has/have been created successfully.");
-        }
-
-        [HttpPost("patients/{id}")]
-        public IActionResult Post(Guid id, int? number)
-        {
-            var patientService = new PatientService(_connectionString);
-
-            var result = patientService.Create(id, number);
-
-            if (result == null)
+            if (!result.HasValue)
                 return BadRequest("Oops, there was an issue.");
 
-            return Ok($"The patient with id={id} has been created successfully.");
+            return Ok($"The patient with id={result.Value} has been created successfully.");
         }
 
         [HttpPut("patients/{id}/{number}")]
