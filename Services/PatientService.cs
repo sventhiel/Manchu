@@ -54,9 +54,17 @@ namespace Manchu.Services
         {
             using (var db = new LiteDatabase(_connectionString))
             {
-                var col = db.GetCollection<Patient>("patients");
+                var patients = db.GetCollection<Patient>("patients");
+                var visits = db.GetCollection<Visit>("visits");
 
-                return col.Delete(id);
+                var patient = patients.FindById(id);
+
+                if (patient != null)
+                {
+                    visits.DeleteMany(v => v.PatientId == id);
+                }
+
+                return patients.Delete(id);
             }
         }
 

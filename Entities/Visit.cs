@@ -17,8 +17,7 @@ namespace Manchu.Entities
         public DateTimeOffset End { get; set; }
         public Guid Id { get; set; }
 
-        [BsonRef("patients")]
-        public Patient Patient { get; set; }
+        public Guid PatientId { get; set; }
 
         public int Position { get; set; }
         public DateTimeOffset Start { get; set; }

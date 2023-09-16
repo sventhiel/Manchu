@@ -34,12 +34,22 @@ namespace Manchu.Services
 
                 var visit = new Visit()
                 {
-                    Patient = patients.FindById(patientId),
+                    PatientId = patientId,
                     Start = DateTimeOffset.UtcNow,
                     End = DateTimeOffset.MinValue,
                 };
 
                 return col.Insert(visit);
+            }
+        }
+
+        public bool Delete(Guid id)
+        {
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var visits = db.GetCollection<Visit>("visits");
+
+                return visits.Delete(id);
             }
         }
 
@@ -65,7 +75,7 @@ namespace Manchu.Services
             {
                 var col = db.GetCollection<Visit>("visits");
 
-                return col.Include(v => v.Patient).FindById(id);
+                return col.FindById(id);
             }
         }
 
@@ -75,7 +85,7 @@ namespace Manchu.Services
             {
                 var col = db.GetCollection<Visit>("visits");
 
-                var visits = col.Query().Include(v => v.Patient).Where(v => v.Patient.Id == patientId).ToList();
+                var visits = col.Query().Where(v => v.PatientId == patientId).ToList();
 
                 return visits;
             }

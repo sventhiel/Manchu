@@ -17,7 +17,7 @@ namespace Manchu.Models
             return new ReadVisitModel()
             {
                 Id = visit.Id,
-                PatientId = visit.Patient.Id,
+                PatientId = visit.PatientId,
                 Start = visit.Start,
                 Breaks = visit.Breaks,
                 Position = visit.Position,
@@ -40,7 +40,7 @@ namespace Manchu.Models
             return new VisitGridItemModel()
             {
                 Id = visit.Id,
-                PatientId = visit.Patient.Id,
+                PatientId = visit.PatientId,
                 Start = visit.Start,
                 Position = visit.Position,
                 Breaks = visit.Breaks,
