@@ -37,14 +37,14 @@ namespace Manchu.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Index(Guid code)
+        public IActionResult Index(Guid id)
         {
             var patientServive = new PatientService(_connectionString);
 
-            if (patientServive.FindById(code) == null)
+            if (patientServive.FindById(id) == null)
                 return RedirectToAction("Info");
 
-            return View(model: code);
+            return View(model: id);
         }
 
         public IActionResult Info()
