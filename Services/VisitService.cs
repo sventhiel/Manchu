@@ -53,6 +53,16 @@ namespace Manchu.Services
             }
         }
 
+        public int DeleteByPatientId(Guid patientId)
+        {
+            using (var db = new LiteDatabase(_connectionString))
+            {
+                var visits = db.GetCollection<Visit>("visits");
+
+                return visits.DeleteMany(v => v.PatientId == patientId);
+            }
+        }
+
         public List<Visit> FindAll()
         {
             using (var db = new LiteDatabase(_connectionString))

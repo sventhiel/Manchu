@@ -57,12 +57,7 @@ namespace Manchu.Services
                 var patients = db.GetCollection<Patient>("patients");
                 var visits = db.GetCollection<Visit>("visits");
 
-                var patient = patients.FindById(id);
-
-                if (patient != null)
-                {
-                    visits.DeleteMany(v => v.PatientId == id);
-                }
+                visits.DeleteMany(v => v.PatientId == id);
 
                 return patients.Delete(id);
             }

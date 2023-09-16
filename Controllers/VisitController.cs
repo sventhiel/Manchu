@@ -19,6 +19,15 @@ namespace Manchu.Controllers
             _connectionString = connectionString;
         }
 
+        [HttpDelete("visits/{patientId}")]
+        public IActionResult DeleteByPatientId(Guid patientId)
+        {
+            var visitService = new VisitService(_connectionString);
+            var count = visitService.DeleteByPatientId(patientId);
+
+            return Ok(count);
+        }
+
         [HttpGet("visits")]
         public IActionResult Get()
         {
