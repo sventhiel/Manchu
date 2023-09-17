@@ -94,8 +94,8 @@ namespace Manchu
                     Contact = new OpenApiContact
                     {
                         Name = "Sven Thiel",
-                        Email = string.Empty,
-                        Url = new Uri("https://coderjony.com/"),
+                        Email = "m6thsv2@googlemail.com",
+                        Url = new Uri("https://infinite-trajectory.de/"),
                     },
                 });
             });
