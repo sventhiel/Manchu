@@ -35,12 +35,13 @@ namespace Manchu
                 app.UseHsts();
             }
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseMvcWithDefaultRoute();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseAuthentication();
+            
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
