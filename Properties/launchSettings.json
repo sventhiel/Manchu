@@ -11,7 +11,6 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "home/index",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -19,7 +18,14 @@
     "Manchu": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "home/index",
+      "applicationUrl": "https://localhost:1337;http://localhost:1336",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Kestrel": {
+      "commandName": "Project",
+      "launchBrowser": true,
       "applicationUrl": "https://localhost:1337;http://localhost:1336",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

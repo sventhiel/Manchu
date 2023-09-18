@@ -34,14 +34,13 @@ namespace Manchu
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseMvcWithDefaultRoute();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            app.UseRouting();
-
             app.UseAuthentication();
-            app.UseAuthorization();
-
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
@@ -51,14 +50,7 @@ namespace Manchu
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Manchu API");
 
                 // To serve SwaggerUI at application's root page, set the RoutePrefix property to an empty string.
-                c.RoutePrefix = string.Empty;
-            });
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                c.RoutePrefix = "swagger";
             });
         }
 
@@ -104,16 +96,19 @@ namespace Manchu
                 options.DefaultScheme = "BASIC";
                 options.DefaultChallengeScheme = "BASIC";
             })
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>
+            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>
                 ("Basic", null)
-    .AddPolicyScheme("BASIC", "BASIC", options =>
-    {
-        options.ForwardDefaultSelector = context =>
-        {
-            return "Basic";
-        };
-    });
-            services.AddControllersWithViews();
+            .AddPolicyScheme("BASIC", "BASIC", options =>
+            {
+                options.ForwardDefaultSelector = context =>
+                {
+                    return "Basic";
+                };
+            });
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });
         }
     }
 }
