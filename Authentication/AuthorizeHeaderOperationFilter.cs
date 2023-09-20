@@ -34,7 +34,7 @@ namespace Manchu.Authentication
                             // Should exactly match the one given in the service configuration
                             Id = "Basic"
                         }
-                    }, new string[0]
+                    }, new string[] {"Basic"}
                 }
             }
             };

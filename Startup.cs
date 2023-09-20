@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Manchu
 {
@@ -27,6 +29,14 @@ namespace Manchu
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Manchu API");
+
+                    // To serve SwaggerUI at application's root page, set the RoutePrefix property to an empty string.
+                    c.RoutePrefix = "swagger";
+                });
             }
             else
             {
@@ -34,30 +44,26 @@ namespace Manchu
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseHttpsRedirection();
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseMvcWithDefaultRoute();
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
-            app.UseSwagger();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
+            app.UseEndpoints(endpoints =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Manchu API");
-
-                // To serve SwaggerUI at application's root page, set the RoutePrefix property to an empty string.
-                c.RoutePrefix = "swagger";
+                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+            services.AddControllersWithViews();
             services.AddSingleton(new ConnectionString(Configuration.GetConnectionString("Manchu")));
             services.AddSwaggerGen(options =>
             {
@@ -94,22 +100,10 @@ namespace Manchu
             });
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = "BASIC";
-                options.DefaultChallengeScheme = "BASIC";
+                options.DefaultScheme = "Basic";
+                options.DefaultChallengeScheme = "Basic";
             })
-            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>
-                ("Basic", null)
-            .AddPolicyScheme("BASIC", "BASIC", options =>
-            {
-                options.ForwardDefaultSelector = context =>
-                {
-                    return "Basic";
-                };
-            });
-            services.AddMvc(options =>
-            {
-                options.EnableEndpointRouting = false;
-            });
+            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
         }
     }
 }

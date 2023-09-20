@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using Manchu.Models;
 using Manchu.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,6 +9,7 @@ using System.Diagnostics;
 
 namespace Manchu.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ConnectionString _connectionString;

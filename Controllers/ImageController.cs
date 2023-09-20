@@ -1,11 +1,16 @@
 ﻿using LazZiya.ImageResize;
 using LiteDB;
+using Manchu.Entities;
+using Manchu.Extensions;
 using Manchu.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
 using System;
 using System.Drawing;
+using System.IO;
+using System.IO.Compression;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Manchu.Controllers
 {
@@ -19,7 +24,7 @@ namespace Manchu.Controllers
             _connectionString = connectionString;
         }
 
-        [HttpPost("qrcodes")]
+        [HttpPost("images")]
         public IActionResult Create(bool numberAsWatermark)
         {
             var patientService = new PatientService(_connectionString);
@@ -34,7 +39,7 @@ namespace Manchu.Controllers
             return Ok("getan!");
         }
 
-        [HttpPost("qrcodes/{id}")]
+        [HttpPost("images/{id}")]
         public IActionResult Create(Guid id, bool numberAsWatermark)
         {
             var patientService = new PatientService(_connectionString);
@@ -55,7 +60,7 @@ namespace Manchu.Controllers
                 TextColor = Color.Black
             };
 
-            using (var img = Image.FromFile($"./wwwroot/media/images/manchu.png"))
+            using (var img = Image.FromFile("./wwwroot/media/images/manchu.png"))
             {
                 var url = $"{Request.Scheme}://{Request.Host.Value}/Home/Index";
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
@@ -78,6 +83,44 @@ namespace Manchu.Controllers
             }
 
             return Ok("getan!");
+        }
+
+        [HttpGet("images/{id}")]
+        public IActionResult Get(Guid id)
+        {
+            FileInfo image = new FileInfo($"./wwwroot/media/codes/{id}.png");
+
+            if (System.IO.File.Exists(image.FullName))
+            {
+                return File(System.IO.File.OpenRead(image.FullName), "application/octet-stream", $"{image.GetFileNameWithoutExtension()}{image.GetExtension()}");
+            }
+            return NotFound();
+        }
+
+        [HttpGet("images")]
+        public IActionResult Get()
+        {
+            try
+            {
+                DirectoryInfo directory = new DirectoryInfo($"./wwwroot/media/codes");
+                FileInfo file = new FileInfo($"{directory.Parent.FullName}/codes.zip");
+
+                if (file.Exists)
+                    file.Delete();
+
+                ZipFile.CreateFromDirectory(directory.FullName, file.FullName);
+
+                if (System.IO.File.Exists(file.FullName))
+                {
+                    return File(System.IO.File.OpenRead(file.FullName), "application/octet-stream", $"{file.GetFileNameWithoutExtension()}{file.GetExtension()}");
+                }
+
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using LiteDB;
 using Manchu.Entities;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -33,6 +35,16 @@ namespace Manchu.Authentication
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+            var endpoint = Context.GetEndpoint();
+
+            //if (endpoint == null)
+            //    return Task.FromResult(AuthenticateResult.NoResult());
+
+            if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
+            {
+                return Task.FromResult(AuthenticateResult.NoResult());
+            }
+
             var authHeader = Request.Headers["Authorization"].ToString();
             if (authHeader != null && authHeader.StartsWith("basic", StringComparison.OrdinalIgnoreCase))
             {
