@@ -1,6 +1,5 @@
 ﻿using LazZiya.ImageResize;
 using LiteDB;
-using Manchu.Entities;
 using Manchu.Extensions;
 using Manchu.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +9,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Manchu.Controllers
 {
