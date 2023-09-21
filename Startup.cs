@@ -27,14 +27,6 @@ namespace Manchu
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Manchu API");
-
-                    // To serve SwaggerUI at application's root page, set the RoutePrefix property to an empty string.
-                    c.RoutePrefix = "swagger";
-                });
             }
             else
             {
@@ -54,6 +46,15 @@ namespace Manchu
             {
                 endpoints.MapControllers();
                 endpoints.MapDefaultControllerRoute();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Manchu API");
+
+                // To serve SwaggerUI at application's root page, set the RoutePrefix property to an empty string.
+                c.RoutePrefix = "swagger";
             });
         }
 
